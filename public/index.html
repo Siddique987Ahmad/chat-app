@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat App</title>
+</head>
+<body>
+    <div id="chat">
+        <div id="messages"></div>
+        <input id="messageInput" placeholder="Type a message...">
+        <div id="typingIndicator"></div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+
+        const messageInput = document.getElementById('messageInput');
+        const messagesDiv = document.getElementById('messages');
+        const typingIndicator = document.getElementById('typingIndicator');
+
+        // Send message on Enter key press
+        messageInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                const message = messageInput.value;
+                socket.emit('sendMessage', { text: message });
+                messageInput.value = ''; // Clear input after sending
+            }
+        });
+
+        // Show typing indicator
+        messageInput.addEventListener('input', () => {
+            socket.emit('typing', messageInput.value.length > 0);
+        });
+
+        // Listen for new messages
+        socket.on('receiveMessage', (data) => {
+            const messageElement = document.createElement('div');
+            messageElement.textContent = `${data.text} - ${new Date(data.timestamp).toLocaleTimeString()}`;
+            messagesDiv.appendChild(messageElement);
+        });
+
+        // Show typing indicator when other users are typing
+        socket.on('userTyping', (data) => {
+            typingIndicator.textContent = data.isTyping ? 'A user is typing...' : '';
+        });
+    </script>
+</body>
+</html>

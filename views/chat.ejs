@@ -1,0 +1,74 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor-Patient Chat</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <div id="chat">
+        <h2>Doctor-Patient Chat</h2> -->
+        
+        <!-- Chat messages area -->
+        <!-- <div id="messages"> -->
+            <!-- Chat messages will be dynamically inserted here -->
+        <!-- </div> -->
+        
+        <!-- Typing indicator -->
+        <!-- <div id="typingIndicator"></div> -->
+
+        <!-- Message input area -->
+        <!-- <input id="messageInput" type="text" placeholder="Type a message..." autocomplete="off"> -->
+
+        <!-- Button to send a message -->
+        <!-- <button id="sendMessageButton">Send</button> -->
+    <!-- </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/client.js"></script>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor-Patient Chat</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <div id="chat">
+        <h2>Doctor-Patient Chat</h2>
+
+        <!-- Chat messages area -->
+        <div id="messages">
+            <!-- Dynamically rendered messages based on role -->
+            <% if (messages && messages.length > 0) { %>
+                <% messages.forEach((message) => { %>
+                    <div class="<%= message.senderRole === 'doctor' ? 'doctor-message' : 'patient-message' %>">
+                        <strong><%= message.senderRole %>:</strong> <%= message.text %>
+                        <small><%= new Date(message.timestamp).toLocaleTimeString() %></small>
+                    </div>
+                <% }) %>
+            <% } else { %>
+                <p>No messages yet. Start a conversation!</p>
+            <% } %>
+        </div>
+
+        <!-- Typing indicator -->
+        <div id="typingIndicator"></div>
+
+        <!-- Message input area -->
+        <input id="messageInput" type="text" placeholder="Type a message..." autocomplete="off">
+        
+        <!-- Button to send a message -->
+        <button id="sendMessageButton">Send</button>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/client.js"></script>
+</body>
+</html>
+

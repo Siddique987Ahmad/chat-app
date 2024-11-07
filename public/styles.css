@@ -1,0 +1,78 @@
+/* Reset some default browser styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* Body styling */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f4f4f9;
+}
+
+/* Chat container */
+#chat {
+    width: 400px;
+    max-width: 90%;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    overflow: hidden;
+}
+
+/* Messages container */
+#messages {
+    height: 300px;
+    padding: 10px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Message styling */
+#messages div {
+    margin-bottom: 8px;
+    padding: 8px;
+    border-radius: 5px;
+    background-color: #e1f5fe;
+    align-self: flex-start;
+    color: #333;
+}
+
+/* User messages (align to the right) */
+#messages div.user {
+    background-color: #bbdefb;
+    align-self: flex-end;
+}
+
+/* Message input styling */
+#messageInput {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    border-top: 1px solid #ddd;
+    border-radius: 0 0 8px 8px;
+}
+
+/* Typing indicator styling */
+#typingIndicator {
+    font-size: 14px;
+    color: #888;
+    padding: 5px 10px;
+}
+.doctor-message {
+    color: blue;
+}
+
+.patient-message {
+    color: green;
+}
+
