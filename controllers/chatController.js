@@ -1,21 +1,3 @@
-// const Message = require('../models/Message');
-
-// const sendMessage = async (req, res) => {
-//     const { text, sender, receiver } = req.body;
-
-//     const message = new Message({ text, sender, receiver });
-//     await message.save();
-//     io.to(receiver).emit('receiveMessage', {
-//         text: message.text,
-//         sender: message.sender,
-//         senderRole: message.senderRole,
-//         timestamp: message.timestamp
-//     });
-
-//     res.status(200).json({ message: 'Message sent successfully', data: message });
-// };
-
-// module.exports = { sendMessage };
 const Message = require('../models/Message');
 
 const sendMessage = async (req, res, io) => {

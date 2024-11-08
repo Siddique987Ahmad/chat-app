@@ -1,59 +1,31 @@
-// const socketSetup = (io) => {
-//     io.on('connection', (socket) => {
-//         console.log('User connected:', socket.id);
-
-//         socket.on('sendMessage', (message) => {
-//             const timestamp = new Date();
-//             io.emit('receiveMessage', { ...message, timestamp });
-//         });
-
-//         socket.on('typing', (isTyping) => {
-//             socket.broadcast.emit('userTyping', { userId: socket.id, isTyping });
-//         });
-
-//         socket.on('disconnect', () => {
-//             console.log('User disconnected:', socket.id);
-//         });
-//     });
-// };
-
-// module.exports = socketSetup;
-
 const socketSetup = (io) => {
     io.on('connection', (socket) => {
         console.log('A user connected:', socket.id);
 
-        // Join the user to a room based on their ID
+        // Join a room based on user role and ID (doctor or patient)
         socket.on('joinRoom', ({ userId, role }) => {
-            socket.join(userId);
-            console.log(`User with ID: ${userId} and role: ${role} joined room ${userId}`);
+            socket.join(userId);  // Each user joins their own room by ID
+            socket.role = role;    // Store the role on the socket object for reference
+            console.log(`${role} with ID ${userId} joined their room`);
         });
 
-        // Handle incoming messages
+        // Listen for messages from doctor or patient
         socket.on('sendMessage', (message) => {
-            const { text, sender, receiver, senderRole } = message;
+            const timestamp = new Date();
+            const { text, sender, senderRole, receiver } = message;
 
-            // Emit the message to only the intended receiver
-            io.to(receiver).emit('receiveMessage', {
-                text,
-                sender,
-                senderRole,
-                timestamp: new Date(),
-            });
-
-            console.log(`Message from ${senderRole} (${sender}) to user ${receiver}: ${text}`);
+            // Emit the message only to the intended receiver
+            io.to(receiver).emit('receiveMessage', { text, sender, senderRole, timestamp });
+            console.log(`Message from ${senderRole} (${sender}) to ${receiver}: ${text}`);
         });
 
-        // Typing indicator
-        socket.on('typing', ({ sender, receiver, isTyping }) => {
-            io.to(receiver).emit('userTyping', {
-                sender,
-                isTyping,
-            });
-            console.log(`${sender} is ${isTyping ? 'typing...' : 'not typing'}`);
+        // Handle typing status for doctor and patient
+        socket.on('typing', ({ isTyping, senderRole, receiver }) => {
+            // Notify only the intended recipient about the typing status
+            io.to(receiver).emit('userTyping', { isTyping, senderRole });
         });
 
-        // Handle disconnect
+        // Handle disconnection
         socket.on('disconnect', () => {
             console.log('User disconnected:', socket.id);
         });
@@ -61,3 +33,4 @@ const socketSetup = (io) => {
 };
 
 module.exports = socketSetup;
+

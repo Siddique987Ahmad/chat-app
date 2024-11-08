@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Chat Interface</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <h1>Patient Chat Interface</h1>
+
+    <!-- Include the chat.ejs partial and pass the messages and senderRole (patient) -->
+    <%- include('chat', { messages: messages, senderRole: 'patient' }) %>
+
+    <form id="chat-form" action="/chat/send" method="post">
+        <input type="hidden" name="senderRole" value="patient">
+        <textarea name="text" placeholder="Type your message..." required></textarea>
+        <button type="submit">Send</button>
+    </form>
+
+    <script src="/js/client.js"></script>
+</body>
+</html>
